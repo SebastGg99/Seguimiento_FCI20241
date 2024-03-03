@@ -2,6 +2,6 @@
 Repositorio para el seguimiento del curso de Física Computacional I
 
 # Fuerza de Lorentz y Coulomb:
-* $$F_L = qv\times B$$
+* $$\vec{F}_L = q\vec{v}\times\vec{B}$$
 
-*$$F_C = k\frac{qQ}{r^2}$$
+* $$\vec{F}_C = k\frac{qQ}{r^3}\vec{r}$$
