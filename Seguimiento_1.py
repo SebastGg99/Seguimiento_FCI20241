@@ -28,7 +28,7 @@ class Particula:
     # velocidad = np.zeros(3)
     #aceleracion = np.zeros(3)
 
-    def __init__(self, r0, v0, a0, m, q):
+    def __init__(self, t, dt, r0, v0, a0, m, q):
         '''
         Constructor de la clase.
         
@@ -38,9 +38,14 @@ class Particula:
             a0 (array): Aceleración inicial.
             q (float) : carga de la partícula
             m (float) : masa de la partícula'''
-        self.posicion = r0
-        self.velocidad = v0
-        self.aceleracion = a0
+        
+        self.tiempo = np.arange(0, t, dt)
+        self.posicion = np.zeros((len(self.tiempo), 3))
+        self.posicion[0] = r0
+        self.velocidad = np.zeros((len(self.tiempo), 3))
+        self.velocidad[0] = v0
+        self.aceleracion = np.zeros((len(self.tiempo), 3))
+        self.aceleracion[0] = a0
         self.masa = m
         self.carga = q
     
@@ -57,7 +62,7 @@ class Particula:
         return F_L #Fuerza de Lorentz
 
     #Método para la fuerza de Coulomb
-    def FuerzaCoulomb(self, Q, posicion2, k = 9e+9):
+    def FuerzaCoulomb(self, particula2, k = 9e+9):
         '''Fuerza eléctrica: la fuerza de interacción eléctrica mediada por la fuerza de Coulomb.
         Parámetros:
             - self: método propio de la partícula 1
@@ -65,76 +70,75 @@ class Particula:
             - posicion2 (array): la posición de la partícula 2
         Retorna:
             - Arreglo de tres elementos con las componentes de la fuerza [Fx,Fy,Fz]'''
-        C = k*self.carga*Q #Constante de las cargas
-        dir = self.posicion - posicion2 #Dirección del campo eléctrico
-        r = np.sqrt(np.dot(self.posicion - posicion2, self.posicion - posicion2)) #Magnitud de dirección
+        C = k * self.carga * particula2.carga #Constante de las cargas
+        dir = particula2.posicion - self.posicion #Dirección del campo eléctrico
+        r = np.sqrt(np.dot(particula2.posicion - self.posicion, 
+                           particula2.posicion - self.posicion)) #Magnitud de dirección
         F_C = (C/r**3)*dir #Fuerza de Coulomb
             
         return F_C
 
     
     #Método para la fuerza total
-    def FuerzaTotal(self):
+    def AceleracionTotal(self):
         ''' Fuerza total: calcula la fuerza de Lorentz para la partícula definida.
         Parámetros:
             - self: como método propio del objeto.
         Retorna:
             - Arreglo de tres elementos con las componentes de la fuerza total.'''
         F_L = self.FuerzaLorentz(campoB)
-        F_C = self.FuerzaCoulomb(Q, posicion2, k = 9e+9)
+        F_C = self.FuerzaCoulomb(particula2, k = 9e+9)
 
-        F_T = F_L + F_C
-        return F_T
+        F_T = F_L + F_C #Fuerza total
+        a_T = F_T / self.masa #Aceleración total
+        return a_T
     
     #Método para la aceleración final
-    def AceleracionFinal(self):
-        '''Aceleración final: calcula la aceleración total de la partícula 
-        Parámetros:
-            - self: como método propio del objeto
-        Retorna:
-            - Arreglo de tres elementos con las componente de la aceleración total de la partícula.'''
-        F_T = self.FuerzaTotal()
-        a = F_T / self.masa
+    # def AceleracionFinal(self):
+    #     '''Aceleración final: calcula la aceleración total de la partícula 
+    #     Parámetros:
+    #         - self: como método propio del objeto
+    #     Retorna:
+    #         - Arreglo de tres elementos con las componente de la aceleración total de la partícula.'''
+    #     F_T = self.FuerzaTotal()
+    #     a = F_T / self.masa
 
-        return a
+    #     return a
     
     #Método para la solución numérica
-    def SolNum(self, t, dt):
-        a = self.AceleracionFinal()
+    def SolNum(self):
+        a = self.AceleracionTotal()
         # dt = 0.1
         #T = np.arange(0, t, dt)
-        T = np.arange(0, t + dt, dt)
-        Posicion = np.zeros((len(T), 3))
-        Velocidad = np.zeros((len(T), 3))
-        Posicion[0] = self.posicion
-        Velocidad[0] = self.velocidad
-        
-        
-        for i in range(len(T)):
-            Velocidad[i + 1] = Velocidad[i] + a*t[i + 1]
-            Posicion[i + 1] = Posicion[i] + Velocidad[i]*t[i + 1] + 0.5*a*(t[i + 1])**2
+        #T = np.arange(0, t + dt, dt)
+        #Posicion = np.zeros((len(T), 3))
+        #Velocidad = np.zeros((len(T), 3))
+        #Posicion[0] = self.posicion
+        #Velocidad[0] = self.velocidad
+
+        for i in range(len(self.tiempo)):
+            self.velocidad[i+1] = self.velocidad[i] + a * self.tiempo[i + 1]
+            self.posicion[i+1] = self.posicion[i] + self.velocidad[i] * self.tiempo[i+1] 
+            + 0.5 * a * (self.tiempo[i+1])**2
+
+        return self.posicion, self.velocidad
 
 
-posicion = np.array([3,1,2])
-velocidad = np.array([0,0,0])
+posicion1 = np.array([0,0,0])
+velocidad1 = np.array([1,0,0])
+posicion2 = np.array([1,2,0])
+velocidad2 = np.array([-1,0,0])
+aceleracion=np.zeros(3)
 
-p = Particula(posicion, velocidad, aceleracion=np.zeros(3), m = 10, q = 1)
+p1 = Particula(10, 0.1, posicion1, velocidad1, aceleracion, m = 10, q = 1)
+particula2 = Particula(10, 0.1, posicion2, velocidad2, aceleracion, m = 10, q = -1)
 campoB = np.array([2, 1, 5])
-Q = -1
-posicion2 = np.array([-1, 1, 2])
+#Q = -1
+#posicion2 = np.array([-1, 1, 2])
 
-F_L = p.FuerzaLorentz(campoB)
-F_C = p.FuerzaCoulomb(Q, posicion2)
-F_T = p.FuerzaTotal()
-a = p.AceleracionFinal()
-sol = p.SolNum(10)
+F_L = p1.FuerzaLorentz(campoB)
+F_C = p1.FuerzaCoulomb(particula2)
+a = p1.AceleracionTotal()
+sol = p1.SolNum()
 
-
-
-#######PRUEBAS#######
-
-#print(f"La fuerza de Lorentz es: {F_L}")
-# print(f"La fuerza de Coulomb es: {F_C}")
-# print(f"La fuerza total es: {F_T}")
-# print(f"La aceleración es: {a}")
-#print(sol)
+print(sol[0])
