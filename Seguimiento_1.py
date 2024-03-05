@@ -7,57 +7,89 @@ class Particula:
        interactuando eléctricamente con otra(s) partícula(s).
        
         Atributos:
-                masa: m
-                carga: q
-                posicion inicial: r0
-                velocidad inicial: v0
-                aceleracion inicial: a0
+                masa: m (float). Representa la masa de la partícula en el kilogramos
+                carga: q (float). Representa la carga de la partícula en Coulombs
+                posicion inicial: r0 (array). Representa la posición de la partícula m.
+                velocidad inicial: v0 (array). Representa la velocidad inicial de la partícula m/s
+                aceleracion inicial: a0 (array). Representa la aceleración de la partícula.
         
         Métodos:
-                FuerzaLorentz()
+                FuerzaLorentz() 
                 FuerzaCoulomb()
                 FuerzaTotal()
                 AceleracionFinal()
                 SolNum()
+                Graficas()
     """
 
     def __init__(self, r0, v0, a0, m, q):
-        self.posicion[0] = r0
-        self.velocidad[0] = v0
-        self.aceleracion[0] = a0
-        self.masa = m
-        self.carga = q
+      '''
+        Constructor de la clase.
+        
+        Parámetros:
+            r0 (array): posición inicial.
+            v0 (array): velocidad inicial.
+            a0 (array): Aceleración inicial.
+            q (float) : carga de la partícula
+            m (float) : masa de la partícula'''
+      self.posicion[0] = r0
+      self.velocidad[0] = v0
+      self.aceleracion[0] = a0
+      self.masa = m
+      self.carga = q
     
     #Método para la fuerza de Lorentz
     def AceleracionLorentz(self, campoB):
-        a_L = (1/self.masa)*self.carga * np.cross(self.velocidad, campoB) #Producto vectorial entre v y B (Lorentz)
-        return a_L #Aceleración debida a la fuerza de Lorentz
+      ''' Fuerza magnética: fuerza de interacción magnética mediada por la parte magnética de la fuerza de Lorentz.
+        Parámetros:
+            - campoB (array): Un campo magnético como vector
+            - self : método propio de la partícula
+            
+        Retorna:
+            - arrar: Arreglo de numpy de tres elementos con las componentes de las fuerzas [fx,fy,fz]'''  
+      a_L = (1/self.masa)*self.carga * np.cross(self.velocidad, campoB) #Producto vectorial entre v y B (Lorentz)
+      
+      return a_L #Aceleración debida a la fuerza de Lorentz
 
     #Método para la fuerza de Coulomb
-    def AceleracionCoulomb(self, Q, r02, k = 9e+9):
-        C = k*self.carga*Q #Constante de las cargas
-        r02 = p2.posicion[0]
-        dir = self.posicion - p2.posicion #Dirección del campo eléctrico
-        r = np.sqrt(np.dot(self.posicion - p2.posicion, self.posicion - p2.posicion)) #Magnitud de dirección
-        a_C = (C/(self.masa)*r**3)*dir #Aceleración debida a la fuerza de de Coulomb
+    def AceleracionCoulomb(self, Q, p2, k = 9e+9):
+      '''Fuerza eléctrica: la fuerza de interacción eléctrica mediada por la fuerza de Coulomb.
+        Parámetros:
+            - self: método propio de la partícula 1
+            - Q (float): la carga de la partícula 2
+            - posicion2 (array): la posición de la partícula 2
+        Retorna:
+            - Arreglo de tres elementos con las componentes de la fuerza [Fx,Fy,Fz]'''
+      C = k*self.carga*Q #Constante de las cargas
+      posicion2 = p2.posicion[0]
+      dir = self.posicion - p2.posicion #Dirección del campo eléctrico
+      r = np.sqrt(np.dot(self.posicion - p2.posicion, self.posicion - p2.posicion)) #Magnitud de dirección
+      a_C = (C/(self.masa)*r**3)*dir #Aceleración debida a la fuerza de de Coulomb
+      
+      return a_C
+        
             
-        return a_C
+        
 
     
     #Método para la fuerza total
     def AceleracionTotal(self):
+    ''' Fuerza total: calcula la fuerza de Lorentz para la partícula definida.
+        Parámetros:
+            - self: como método propio del objeto.
+        Retorna:
+            - Arreglo de tres elementos con las componentes de la fuerza total.'''
+    
+    '''Aceleración final: calcula la aceleración total de la partícula 
+        Parámetros:
+            - self: como método propio del objeto
+        Retorna:
+            - Arreglo de tres elementos con las componente de la aceleración total de la partícula.'''
         a_L = self.AceleracionLorentz(campoB)
         a_C = self.AceleracionCoulomb(Q, p2.posicion, k = 9e+9)
-
         a_T = a_L + a_C
-        return a_T
-    
-    #Método para la aceleración final
-    def AceleracionFinal(self):
-        F_T = self.FuerzaTotal()
-        a = F_T / self.masa
-
-        return a
+        
+        return a_T 
     
     #Método para la solución numérica
     def SolNum(self, t, dt):
