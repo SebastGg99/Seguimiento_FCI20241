@@ -1,4 +1,6 @@
 import numpy as np
+import matplotlib.pyplot as plt
+
 
 class Particula:
     """Se crea una clase llamada Particula, que cuenta con atributos fijos como masa y carga eléctrica,
@@ -104,6 +106,25 @@ class Particula:
             Posicion[i + 1] = Posicion[i] + Velocidad[i]*T[i + 1] + 0.5*a*(T[i + 1])**2
 
         return Posicion, Velocidad
+    
+    def Plots(self, sol, t, dt):
+      T = np.arange(0, t + dt, dt)
+      sol = self.SolNum(t, dt)
+      x = [i[0] for i in sol[0]]
+      y = [i[1] for i in sol[0]]
+      z = [i[2] for i in sol[0]]
+
+      fig = plt.figure()
+      ax = fig.add_subplot(111, projection='3d')
+      ax.plot(x, y, z)
+
+      # Etiquetas de los ejes
+      ax.set_xlabel('X')
+      ax.set_ylabel('Y')
+      ax.set_zlabel('Z')
+      
+      # Mostrar la gráfica
+      plt.show()
 
 
 posicion1 = np.array([0,0,0])
@@ -114,13 +135,15 @@ aceleracion=np.zeros(3)
 
 p1 = Particula(posicion1, velocidad1, aceleracion, m = 10, q = 1)
 p2 = Particula(posicion2, velocidad2, aceleracion, m = 10, q = -1)
-campoB = np.array([2, 1, 5])
+campoB = np.array([1, 0, 0])
 #Q = -1
 #posicion2 = np.array([-1, 1, 2])
 
 F_L = p1.AceleracionLorentz(campoB)
 F_C = p1.AceleracionCoulomb(p2, posicion2)
 a= p1.AceleracionTotal()
-sol = p1.SolNum(10,0.1)
+sol = p1.SolNum(0.5, 0.0001)
 
 #print(sol[0])
+
+p1.Plots(sol, 0.5, 0.0001)
