@@ -1,149 +1,105 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-
 class Particula:
-    """Se crea una clase llamada Particula, que cuenta con atributos fijos como masa y carga eléctrica,
-       y otros no fijos, como los asociados a la posición, velocidad y aceleración. Además, cuenta con 
-       métodos que dan constancia de su dinámica dentro de un campo magnético uniforme, y a la vez, 
-       interactuando eléctricamente con otra(s) partícula(s).
-       
-        Atributos:
-                masa: m (float). Representa la masa de la partícula en el kilogramos
-                carga: q (float). Representa la carga de la partícula en Coulombs
-                posicion inicial: r0 (array). Representa la posición de la partícula m.
-                velocidad inicial: v0 (array). Representa la velocidad inicial de la partícula m/s
-                aceleracion inicial: a0 (array). Representa la aceleración de la partícula.
-        
-        Métodos:
-                FuerzaLorentz() 
-                FuerzaCoulomb()
-                FuerzaTotal()
-                AceleracionFinal()
-                SolNum()
-                Graficas()
-    """
-    def __init__(self, r0, v0, a0, m, q):
-      '''Constructor de la clase.
-        
-        Parámetros:
-            r0 (array): posición inicial.
-            v0 (array): velocidad inicial.
-            a0 (array): Aceleración inicial.
-            q (float) : carga de la partícula
-            m (float) : masa de la partícula'''
-      
-      self.posicion = r0
-      self.velocidad = v0
-      self.aceleracion = a0
-      self.masa = m
-      self.carga = q
-    
-    #Método para la fuerza de Lorentz
-    def AceleracionLorentz(self, campoB):
-      ''' Fuerza magnética: fuerza de interacción magnética mediada por la parte magnética de la fuerza de Lorentz.
-        Parámetros:
-            - campoB (array): Un campo magnético como vector
-            - self : método propio de la partícula
-            
-        Retorna:
-            - arrar: Arreglo de numpy de tres elementos con las componentes de las fuerzas [fx,fy,fz]'''  
-      a_L = (1/self.masa)*self.carga * np.cross(self.velocidad, campoB) #Producto vectorial entre v y B (Lorentz)
-      
-      return a_L #Aceleración debida a la fuerza de Lorentz
+  def __init__(self, q, m):
+    self.carga = q
+    self.masa = m
 
-    #Método para la fuerza de Coulomb
-    def AceleracionCoulomb(self, p2, k = 9e+9):
-      '''Fuerza eléctrica: la fuerza de interacción eléctrica mediada por la fuerza de Coulomb.
-        Parámetros:
-            - self: método propio de la partícula 1
-            - Q (float): la carga de la partícula 2
-            - posicion2 (array): la posición de la partícula 2
-        Retorna:
-            - Arreglo de tres elementos con las componentes de la fuerza [Fx,Fy,Fz]'''
-      C = k * self.carga* p2.carga #Constante de las cargas
-      dir = p2.posicion - self.posicion #Dirección del campo eléctrico
-      r = np.sqrt(np.dot(p2.posicion - self.posicion, p2.posicion - self.posicion)) #Magnitud de dirección
-      a_C = (C/(self.masa)*r**3)*dir #Aceleración debida a la fuerza de de Coulomb
-      
-      return a_C
-    
-    #Método para la fuerza total
-    def AceleracionTotal(self):
-       ''' Fuerza total: calcula la fuerza de Lorentz para la partícula definida.
-        Parámetros:
-            - self: como método propio del objeto.
-        Retorna:
-            - Arreglo de tres elementos con las componentes de la fuerza total.
-    
-        Aceleración final: calcula la aceleración total de la partícula 
-        Parámetros:
-            - self: como método propio del objeto
-        Retorna:
-            - Arreglo de tres elementos con las componente de la aceleración total de la partícula.'''
+class Dinamica:
+  def __init__(self, r0, v0, a0 = np.zeros(3)):
+    self.posicion = r0
+    self.velocidad = v0
+    self.aceleracion = a0
 
+  def TotalInteraction(self, posicion1, posicion2, velocidad, carga1, carga2, masa, campoB, k = 9e+9):
+    F_L = carga1 * np.cross(velocidad, campoB)
+    a_L = F_L / masa
 
-       a_L = self.AceleracionLorentz(campoB)
-       a_C = self.AceleracionCoulomb(p2, k = 9e+9)
-       a_T = a_L + a_C
-        
-       return a_T 
-    
-    #Método para la solución numérica
-    def SolNum(self, t, dt):
-        a = self.AceleracionTotal()
-        # dt = 0.1
-        #T = np.arange(0, t, dt)
-        T = np.arange(0, t + dt, dt)
-        Posicion = np.zeros((len(T), 3))
-        Velocidad = np.zeros((len(T), 3))
-        Posicion[0] = self.posicion
-        Velocidad[0] = self.velocidad
-        
-        
-        for i in range(len(T)-1):
-            Velocidad[i + 1] = Velocidad[i] + a*T[i + 1]
-            Posicion[i + 1] = Posicion[i] + Velocidad[i]*T[i + 1] + 0.5*a*(T[i + 1])**2
+    C = k * carga1 * carga2
+    dir = posicion2 - posicion1
+    r = np.linalg.norm(dir)
+    F_C = (C * dir) / (r**3)
+    a_C = F_C / masa
 
-        return Posicion, Velocidad
-    
-    def Plots(self, sol, t, dt):
-      T = np.arange(0, t + dt, dt)
-      sol = self.SolNum(t, dt)
-      x = [i[0] for i in sol[0]]
-      y = [i[1] for i in sol[0]]
-      z = [i[2] for i in sol[0]]
+    a_T = a_L + a_C
+    return a_T
 
-      fig = plt.figure()
-      ax = fig.add_subplot(111, projection='3d')
-      ax.plot(x, y, z)
+  def PasoTiempo(self, posicion1, posicion2, velocidad, carga1, carga2, masa, campoB, t, dt):
+    t_ = np.arange(0, t + dt, dt)
+    Posicion = np.zeros((len(t_), 3))
+    Posicion[0] = self.posicion
+    Velocidad = np.zeros_like(Posicion)
+    Velocidad[0] = self.velocidad
+    Aceleracion = np.zeros_like(Posicion)
+    Aceleracion[0] = self.aceleracion
+
+    for j in range(len(t_) - 1):
+      Aceleracion[j + 1] = self.TotalInteraction(Posicion[j], posicion2, Velocidad[j], carga1, carga2, masa, campoB)
+      Velocidad[j + 1] = Velocidad[j] + Aceleracion[j] * dt
+      Posicion[j + 1] = Posicion[j] + Velocidad[j] * dt + 0.5 * Aceleracion[j] * (dt**2)
+
+    return Posicion, Velocidad, Aceleracion
+
+class Plots:
+  def __init__(self, sol1, sol2):
+    self.sol1 = sol1
+    self.sol2 = sol2
+
+  def plot(self, t, dt):
+    t_ = np.arange(0, t + dt, dt)
+
+    x1 = [i[0] for i in self.sol1[0]]
+    y1 = [i[1] for i in self.sol1[0]]
+    z1 = [i[2] for i in self.sol1[0]]
+
+    x2 = [i[0] for i in self.sol2[0]]
+    y2 = [i[1] for i in self.sol2[0]]
+    z2 = [i[2] for i in self.sol2[0]]
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    ax.plot(x1, y1, z1)
+    ax.plot(x2, y2, z2)
+
+    ax.quiver(x1[:-1], y1[:-1], z1[:-1], np.diff(x1), np.diff(y1), np.diff(z1), color='b', length=0.2, normalize=True)
+    ax.quiver(x2[:-1], y2[:-1], z2[:-1], np.diff(x2), np.diff(y2), np.diff(z2), color='r', length=0.2, normalize=True)
 
       # Etiquetas de los ejes
-      ax.set_xlabel('X')
-      ax.set_ylabel('Y')
-      ax.set_zlabel('Z')
-      
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Z')
+
       # Mostrar la gráfica
-      plt.show()
+    plt.show()
 
 
-posicion1 = np.array([0,0,0])
-velocidad1 = np.array([1,0,0])
-posicion2 = np.array([1,2,0])
-velocidad2 = np.array([-1,0,0])
-aceleracion=np.zeros(3)
 
-p1 = Particula(posicion1, velocidad1, aceleracion, m = 10, q = 1)
-p2 = Particula(posicion2, velocidad2, aceleracion, m = 10, q = -1)
-campoB = np.array([1, 0, 0])
-#Q = -1
-#posicion2 = np.array([-1, 1, 2])
 
-F_L = p1.AceleracionLorentz(campoB)
-F_C = p1.AceleracionCoulomb(p2, posicion2)
-a= p1.AceleracionTotal()
-sol = p1.SolNum(0.5, 0.0001)
+q1 = 1
+q2 = -1
+m1 = 1
+m2 = 1
+r1 = np.array([10, 20, 30])
+v1 = np.array([1, 2, 5])
+r2 = np.array([-11, 2, -40])
+v2 = np.array([2, 3, 4])
+campoB = np.array([5, 0, 0])
+t = 10
+dt = t / 1000
 
-#print(sol[0])
+p1 = Particula(q1, m1)
+p2 = Particula(q2, m2)
 
-p1.Plots(sol, 0.5, 0.0001)
+d1 = Dinamica(r1, v1)
+d2 = Dinamica(r2, v2)
+
+a1 = d1.TotalInteraction(r1, r2, v1, q1, q2, m1, campoB)
+a2 = d1.TotalInteraction(r2, r1, v2, q1, q2, m2, campoB)
+
+sol1 = d1.PasoTiempo(r1, r2, v1, q1, q2, m1, campoB, t, dt)
+sol2 = d2.PasoTiempo(r2, r1, v2, q1, q2, m2, campoB, t, dt)
+
+plot = Plots(sol1, sol2)
+
+plot.plot(t, dt)
