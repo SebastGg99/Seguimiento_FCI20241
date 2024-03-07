@@ -18,24 +18,63 @@ $$ \vec{v}(t) = \vec{v}_0+\vec{a}t $$
 
 Por último, debemos analizar y extraer mediante gráficas, la trayectoria, velocidad y la aceleración de las partículas debido a las interacciones consideradas.
 
+
 # Importancia de la fuerza de Lorentz
 
 La fuerza de Lorentz es importante para estudiar los comportamientos generados por la interacción de partículas cargadas en movimiento en regiones de campos electricos e intensidades de campos magnéticos. Esto pues ayudó a establecer la relación carga-masa de los isótopos de los elementos, así como también la trayectoria que cumplen estas partículas, puesto que así, se pueden redireccionar en el campo de colisionadores o lásers.
 
+# Contenido:
 
-# La clase Particula para usuarios:
+* "Seguimiento_1.py": contiene la definición de la clase partícula, que representa una partícula con propiedades como la masa, carga eléctrica, posición, velocidad y aceleración . Además de las interacciones entre ellas como se explicará en la siguiente sección.
+* 'execution.py": es el archivo que instancia la clase, dando los parámetros mencionados anteriormente
 
-Primero se crea el objeto partícula mediante la clase partícula, para llamarla por medio de una instancia debe proporcionar :
-* Atributos: carga (float), masa (float), posición inicial (array), velocidad inicial (array)
-Y a los métodos que puede acceder en la clase son:
-* Métodos:
-    1. Fuerza magnética: para llamar a este método necesita de tres parámetros, el tiempo(array) y la aceleración(array) que son los responsables de evolucionar la velocidad, y el campo magnético $\vec{B}$ (array) que media la interacción de la partícula con velocidad.
-    2. Fuerza eléctrica: para llamar a este método necesita de la partícula 2(objeto), haciendo énfasis en la carga ($q_2$) y la posición de las partículas que se van modificando a medida que transcurre el tiempo. 
-    3. Fuerza total: Ingresa los parámetros mencionados anteriormente y regresa la suma de las fuerzas de interacción 
-    4. Aceleración total: Ingresa la fuerza total y retorna la aceleración total de la partícula. 
-    5. Solución numérica, soluciona la evolución temporal de la partícula, es decir, obtiene la trayectoria, la velocidad y la aceleración.
-    6. Grafica: grafica la trayectoria, velocidad y aceleración obtenida anteriormente.
+# Uso
 
+Para hacer uso del simulador, se debe importar la clase Particula en el execution desde el archivo "Seguimiento_1.py" y se deben crear las instanciar mediante las variables físicas que deseas controlar, tales como la masa, la carga, la posición inicial, la velocidad inicial y la aceleración. Todo eso para calcular el movimiento de las partículas y visualizar los resultados mediantes gráficas.
+
+# Requisitos
+
+* Python 3.x
+* Numpy
+* Matplotlib
+
+# Descripción de las clases:
+
+## Clase Particula:
+
+Representa la creación del objeto con propiedades como carga y masa
+Atributos:
+    1.  carga (float): carga electrica de la partícula
+    2.  masa (float): masa de la partícula
+
+Metodos:
+    1. __init__: constructos de la clase
+
+## Clase Dinamica:
+Calcula la evolución de la dinámica en función del tiempo, para las variables como posición, velocidad y aceleración.
+Atributos:
+    1.  posicion: posicion de la partícula
+    2.  velocidad: velocidad inicial de la particula
+    3.  aceleracion: aceleración inicial de la partícula
+Métodos:
+    1. __init__(): constructor de la clase, inicializa los atributos de la dinámica de la partícula. 
+    2. TotalInteractio(): calcula la aceleración total de la partícula debido a la interacción mediante la fuerza de Lorentz.
+    3. PasoTiempo(): realiza la integración numérica (evolución temporal de los atributos)
+
+## Clase Plots:
+
+Genera los gráficos de la trayectoria o de las coordenadas de las partículas en función del tiempo:
+Atributos:
+    -   sol1: solución de la dinámica de la partícula 1.
+    -   sol2: solución de la dinámica de la partícula 2.
+
+Metodos:
+    -   __init__(): constructor para inicializar los atributos
+    -   plot(): genera los gráficos de la trayectoria o de las coordenadas de acuerdo a la opcion suministrada.
+# Contribiciones
+Si encuentras algún bug en la implementación del código no dudes en notificarnos.
+
+Desarrollado por Jose Luis Torres, Sebastián Gaviria, Mario José Félix.
 # Referencias
 
 [1] Jackson, John David, (1999). Classical electrodynamics. New York :Wiley
