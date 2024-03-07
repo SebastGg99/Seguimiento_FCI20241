@@ -48,6 +48,7 @@ class Plots:
 
   def plot(self, t, dt, option = "Trayectoria"):
     t_ = np.arange(0, t + dt, dt)
+    
     x1 = [i[0] for i in self.sol1[0]]
     y1 = [i[1] for i in self.sol1[0]]
     z1 = [i[2] for i in self.sol1[0]]
@@ -55,14 +56,28 @@ class Plots:
     x2 = [i[0] for i in self.sol2[0]]
     y2 = [i[1] for i in self.sol2[0]]
     z2 = [i[2] for i in self.sol2[0]]
+
+    vx1 = [i[0] for i in self.sol1[1]]
+    vy1 = [i[1] for i in self.sol1[1]]
+    vz1 = [i[2] for i in self.sol1[1]]
+    
+    vx2 = [i[0] for i in self.sol2[1]]
+    vy2 = [i[1] for i in self.sol2[1]]
+    vz2 = [i[2] for i in self.sol2[1]]
+
+    ax1 = [i[0] for i in self.sol1[2]]
+    ay1 = [i[1] for i in self.sol1[2]]
+    az1 = [i[2] for i in self.sol1[2]]
+    
+    ax2 = [i[0] for i in self.sol2[2]]
+    ay2 = [i[1] for i in self.sol2[2]]
+    az2 = [i[2] for i in self.sol2[2]]
+    
     if option == "Trayectoria":
       fig = plt.figure()
       ax = fig.add_subplot(111, projection='3d')
       ax.plot(x1, y1, z1)
       ax.plot(x2, y2, z2)
-
-      ax.quiver(x1[:-1], y1[:-1], z1[:-1], np.diff(x1), np.diff(y1), np.diff(z1), color='b', length=0.2, normalize=True)
-      ax.quiver(x2[:-1], y2[:-1], z2[:-1], np.diff(x2), np.diff(y2), np.diff(z2), color='r', length=0.2, normalize=True)
 
       # Etiquetas de los ejes
       ax.set_xlabel('X')
@@ -72,36 +87,71 @@ class Plots:
       # Mostrar la gráfica
       plt.show()
     
-    elif option == "x(t)":
+    elif option == "r(t)":
       fig, ax = plt.subplots(2, 3, figsize=(15, 10))
       ax[0,0].plot(t_, x1, 'r')
-      ax[0,0].set_title('x_1(t)')
+      ax[0,0].set_title('$x_1(t)$')
       ax[0,1].plot(t_, y1, 'r')
-      ax[0,1].set_title('y_1(t)')
+      ax[0,1].set_title('$y_1(t)$')
       ax[0,2].plot(t_, z1, 'r')
-      ax[0,2].set_title('z_1(t)')
+      ax[0,2].set_title('$z_1(t)$')
       ax[1,0].plot(t_, x2, 'b')
-      ax[1,0].set_title('x_2(t)')
+      ax[1,0].set_title('$x_2(t)$')
       ax[1,1].plot(t_, y2, 'b')
-      ax[1,1].set_title('y_2(t)')
+      ax[1,1].set_title('$y_2(t)$')
       ax[1,2].plot(t_, z2, 'b')
-      ax[1,2].set_title('z_2(t)')
+      ax[1,2].set_title('$z_2(t)$')
+
+      plt.tight_layout()
+
+      plt.show()
+    
+    elif option == "v(t)":
+      fig, ax = plt.subplots(2, 3, figsize=(15, 10))
+      ax[0,0].plot(t_, vx1, 'r')
+      ax[0,0].set_title('$v_{x1}(t)$')
+      ax[0,1].plot(t_, vy1, 'r')
+      ax[0,1].set_title('$v_{y1}(t)$')
+      ax[0,2].plot(t_, vz1, 'r')
+      ax[0,2].set_title('$v_{z1}(t)$')
+      ax[1,0].plot(t_, vx2, 'b')
+      ax[1,0].set_title('$v_{x2}(t)$')
+      ax[1,1].plot(t_, vy2, 'b')
+      ax[1,1].set_title('$v_{y2}(t)$')
+      ax[1,2].plot(t_, vz2, 'b')
+      ax[1,2].set_title('$v_{z2}(t)$')
 
       plt.tight_layout()
 
       plt.show()
 
+    elif option == "a(t)":
+      fig, ax = plt.subplots(2, 3, figsize=(15, 10))
+      ax[0,0].plot(t_, ax1, 'r')
+      ax[0,0].set_title('$a_{x1}(t)$')
+      ax[0,1].plot(t_, ay1, 'r')
+      ax[0,1].set_title('$a_{y1}(t)$')
+      ax[0,2].plot(t_, az1, 'r')
+      ax[0,2].set_title('$a_{z1}(t)$')
+      ax[1,0].plot(t_, ax2, 'b')
+      ax[1,0].set_title('$a_{x2}(t)$')
+      ax[1,1].plot(t_, ay2, 'b')
+      ax[1,1].set_title('$a_{y2}(t)$')
+      ax[1,2].plot(t_, az2, 'b')
+      ax[1,2].set_title('$a_{z2}(t)$')
 
+      plt.tight_layout()
 
+      plt.show()
 
 q1 = 1
 q2 = -1
 m1 = 1
 m2 = 1
-r1 = np.array([10, 20, 30])
+r1 = np.array([1, 1, 1])
 v1 = np.array([1, 2, 5])
-r2 = np.array([-11, 2, -40])
-v2 = np.array([2, 3, 4])
+r2 = np.array([-1, 10, 5])
+v2 = np.array([-1, -2, -5])
 campoB = np.array([5, 0, 0])
 t = 10
 dt = t / 1000
