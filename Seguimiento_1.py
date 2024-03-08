@@ -78,6 +78,7 @@ class Plots:
       ax = fig.add_subplot(111, projection='3d')
       ax.plot(x1, y1, z1)
       ax.plot(x2, y2, z2)
+      
 
       # Etiquetas de los ejes
       ax.set_xlabel('X')
@@ -89,7 +90,7 @@ class Plots:
     
     elif option == "r(t)":
       fig, ax = plt.subplots(2, 3, figsize=(15, 10))
-      ax[0,0].plot(t_, x1, 'r')
+      """ax[0,0].plot(t_, x1, 'r')
       ax[0,0].set_title('$x_1(t)$')
       ax[0,1].plot(t_, y1, 'r')
       ax[0,1].set_title('$y_1(t)$')
@@ -100,26 +101,112 @@ class Plots:
       ax[1,1].plot(t_, y2, 'b')
       ax[1,1].set_title('$y_2(t)$')
       ax[1,2].plot(t_, z2, 'b')
+      ax[1,2].set_title('$z_2(t)$')"""
+      c="gold"
+      ax[0,0].plot(t_, x1, c)
+      ax[0,0].set_title('$x_1(t)$')
+      ax[0,0].grid(c="black",lw=0.3)
+      ax[0,0].spines['top'].set_color(c) 
+      ax[0,0].spines['right'].set_color(c) 
+      ax[0,0].spines['left'].set_color(c) 
+      ax[0,0].spines['bottom'].set_color(c) 
+      c="orange"
+      ax[0,1].plot(t_, y1, c)
+      ax[0,1].set_title('$y_1(t)$')
+      ax[0,1].grid(c="black",lw=0.3)
+      ax[0,1].spines['top'].set_color(c) 
+      ax[0,1].spines['right'].set_color(c) 
+      ax[0,1].spines['left'].set_color(c) 
+      ax[0,1].spines['bottom'].set_color(c)
+      c="orangered"
+      ax[0,2].plot(t_, z1, c)
+      ax[0,2].set_title('$z_1(t)$')
+      ax[0,2].grid(c="black",lw=0.3)
+      ax[0,2].spines['top'].set_color(c) 
+      ax[0,2].spines['right'].set_color(c) 
+      ax[0,2].spines['left'].set_color(c) 
+      ax[0,2].spines['bottom'].set_color(c)
+      c="pink"
+      ax[1,0].plot(t_, x2, c)
+      ax[1,0].set_title('$x_2(t)$')
+      ax[1,0].grid(c="black",lw=0.3)
+      ax[1,0].spines['top'].set_color(c) 
+      ax[1,0].spines['right'].set_color(c) 
+      ax[1,0].spines['left'].set_color(c) 
+      ax[1,0].spines['bottom'].set_color(c)
+      c="violet"
+      ax[1,1].plot(t_, y2, c)
+      ax[1,1].set_title('$y_2(t)$')
+      ax[1,1].grid(c="black",lw=0.3)
+      ax[1,1].spines['top'].set_color(c) 
+      ax[1,1].spines['right'].set_color(c) 
+      ax[1,1].spines['left'].set_color(c) 
+      ax[1,1].spines['bottom'].set_color(c)
+      c="purple"
+      ax[1,2].plot(t_, z2, c)
       ax[1,2].set_title('$z_2(t)$')
+      ax[1,2].grid(c="black",lw=0.3)
+      ax[1,2].spines['top'].set_color(c) 
+      ax[1,2].spines['right'].set_color(c) 
+      ax[1,2].spines['left'].set_color(c) 
+      ax[1,2].spines['bottom'].set_color(c)
 
       plt.tight_layout()
-
       plt.show()
     
     elif option == "v(t)":
       fig, ax = plt.subplots(2, 3, figsize=(15, 10))
-      ax[0,0].plot(t_, vx1, 'r')
+     
+       
+      ax[0,0].plot(t_, vx1, 'darkgreen')
       ax[0,0].set_title('$v_{x1}(t)$')
-      ax[0,1].plot(t_, vy1, 'r')
+      c="black"
+      ax[0,0].grid(c="black",lw=0.3)
+      ax[0,0].spines['top'].set_color(c) 
+      ax[0,0].spines['right'].set_color(c) 
+      ax[0,0].spines['left'].set_color(c) 
+      ax[0,0].spines['bottom'].set_color(c) 
+      ax[0,1].plot(t_, vy1, 'g')
       ax[0,1].set_title('$v_{y1}(t)$')
-      ax[0,2].plot(t_, vz1, 'r')
+      c="black"
+      ax[0,1].grid(c="black",lw=0.3)
+      ax[0,1].spines['top'].set_color(c) 
+      ax[0,1].spines['right'].set_color(c) 
+      ax[0,1].spines['left'].set_color(c) 
+      ax[0,1].spines['bottom'].set_color(c) 
+      ax[0,2].plot(t_, vz1, 'chartreuse')
       ax[0,2].set_title('$v_{z1}(t)$')
-      ax[1,0].plot(t_, vx2, 'b')
+      c="black"
+      ax[0,2].grid(c="black",lw=0.3)
+      ax[0,2].spines['top'].set_color(c) 
+      ax[0,2].spines['right'].set_color(c) 
+      ax[0,2].spines['left'].set_color(c) 
+      ax[0,2].spines['bottom'].set_color(c)
+      ax[1,0].plot(t_, vx2, 'darkblue')
       ax[1,0].set_title('$v_{x2}(t)$')
-      ax[1,1].plot(t_, vy2, 'b')
+      c="black"
+      ax[1,0].grid(c="black",lw=0.3)
+      ax[1,0].spines['top'].set_color(c) 
+      ax[1,0].spines['right'].set_color(c) 
+      ax[1,0].spines['left'].set_color(c) 
+      ax[1,0].spines['bottom'].set_color(c)
+      ax[1,1].plot(t_, vy2, 'teal')
       ax[1,1].set_title('$v_{y2}(t)$')
-      ax[1,2].plot(t_, vz2, 'b')
+      c="black"
+      ax[1,1].grid(c="black",lw=0.3)
+      ax[1,1].spines['top'].set_color(c) 
+      ax[1,1].spines['right'].set_color(c) 
+      ax[1,1].spines['left'].set_color(c) 
+      ax[1,2].spines['bottom'].set_color(c)
+      
+      color="black"
+      ax[1,2].plot(t_, vz2, 'cyan')
       ax[1,2].set_title('$v_{z2}(t)$')
+      ax[1,2].grid(c="black",lw=0.3)
+      ax[1,2].spines['top'].set_color(c) 
+      ax[1,2].spines['right'].set_color(c) 
+      ax[1,2].spines['left'].set_color(c) 
+      ax[1,2].spines['bottom'].set_color(c)
 
       plt.tight_layout()
 
@@ -127,21 +214,58 @@ class Plots:
 
     elif option == "a(t)":
       fig, ax = plt.subplots(2, 3, figsize=(15, 10))
-      ax[0,0].plot(t_, ax1, 'r')
+       
+      ax[0,0].plot(t_, ax1, 'b')
       ax[0,0].set_title('$a_{x1}(t)$')
-      ax[0,1].plot(t_, ay1, 'r')
+      c="black"
+      ax[0,0].grid(c="black",lw=0.3)
+      ax[0,0].spines['top'].set_color(c) 
+      ax[0,0].spines['right'].set_color(c) 
+      ax[0,0].spines['left'].set_color(c) 
+      ax[0,0].spines['bottom'].set_color(c) 
+      ax[0,1].plot(t_, ay1, 'indigo')
       ax[0,1].set_title('$a_{y1}(t)$')
-      ax[0,2].plot(t_, az1, 'r')
+      c="black"
+      ax[0,1].grid(c="black",lw=0.3)
+      ax[0,1].spines['top'].set_color(c) 
+      ax[0,1].spines['right'].set_color(c) 
+      ax[0,1].spines['left'].set_color(c) 
+      ax[0,1].spines['bottom'].set_color(c) 
+      ax[0,2].plot(t_, az1, 'blueviolet')
       ax[0,2].set_title('$a_{z1}(t)$')
-      ax[1,0].plot(t_, ax2, 'b')
+      c="black"
+      ax[0,2].grid(c="black",lw=0.3)
+      ax[0,2].spines['top'].set_color(c) 
+      ax[0,2].spines['right'].set_color(c) 
+      ax[0,2].spines['left'].set_color(c) 
+      ax[0,2].spines['bottom'].set_color(c) 
+      ax[1,0].plot(t_, ax2, 'chocolate')
       ax[1,0].set_title('$a_{x2}(t)$')
-      ax[1,1].plot(t_, ay2, 'b')
+      ax[1,0].grid(c="black",lw=0.3)
+      c="black"
+      ax[1,0].spines['top'].set_color(c) 
+      ax[1,0].spines['right'].set_color(c) 
+      ax[1,0].spines['left'].set_color(c) 
+      ax[1,0].spines['bottom'].set_color(c)
+      ax[1,1].plot(t_, ay2, 'brown')
       ax[1,1].set_title('$a_{y2}(t)$')
-      ax[1,2].plot(t_, az2, 'b')
+      ax[1,1].grid(c="black",lw=0.3)
+      c="black"
+      ax[1,1].spines['top'].set_color(c) 
+      ax[1,1].spines['right'].set_color(c) 
+      ax[1,1].spines['left'].set_color(c) 
+      ax[1,1].spines['bottom'].set_color(c)
+      ax[1,2].plot(t_, az2, 'maroon')
       ax[1,2].set_title('$a_{z2}(t)$')
+      ax[1,2].grid(c="black",lw=0.3)
+      c="black"
+      ax[1,2].spines['top'].set_color(c) 
+      ax[1,2].spines['right'].set_color(c) 
+      ax[1,2].spines['left'].set_color(c) 
+      ax[1,2].spines['bottom'].set_color(c)
 
       plt.tight_layout()
-
+      
       plt.show()
 
 q1 = 1
@@ -170,4 +294,5 @@ sol2 = d2.PasoTiempo(r2, r1, v2, q1, q2, m2, campoB, t, dt)
 
 plot = Plots(sol1, sol2)
 
-plot.plot(t, dt)
+
+plot.plot(t, dt, "a(t)")
