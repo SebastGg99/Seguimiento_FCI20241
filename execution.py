@@ -16,4 +16,3 @@ r2 = np.array([1, 1, 0])  # Initial position for particle 2
 particle = Particle(v1, q1, m1, B, r1, v2, q2, m2, r2)
 particle.plot_motion()
     
-    
