@@ -1,4 +1,4 @@
-# Clase fuerza de Lorentz
+# Clase Particle
 
 Desarrollado por:
 
