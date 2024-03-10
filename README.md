@@ -49,28 +49,31 @@ Para hacer uso del simulador, se debe importar la clase Particle en el ejecutabl
 ## Clase Particle:
 
 Representa la creación del objeto con propiedades como carga, masa y sus variables dinámicas.
+
 Atributos:
-    1.  q1 (float): carga electrica de la partícula 1
-    2.  m1 (float): masa de la partícula 1
-    3.  r1 (np.ndarray): posición inicial de la partícula 1
-    4.  v1 (np.ndarray): velocidad inicial de la partícula 1
-    5.  q2 (float): carga electrica de la partícula 2
-    6.  m2 (float): masa de la partícula 2
-    7.  r2 (np.ndarray): posición inicial de la partícula 2
-    8.  v2 (np.ndarray): velocidad inicial de la partícula 2
-    9.  t_end (float): tiempo de integración (default: 30)
-    10. num_steps (int): número de pasos en la integración (default: 300)
+
+1. q1 (float): carga electrica de la partícula 1
+2. m1 (float): masa de la partícula 1
+3.  r1 (np.ndarray): posición inicial de la partícula 1
+4.  v1 (np.ndarray): velocidad inicial de la partícula 1
+5.  q2 (float): carga electrica de la partícula 2
+6.  m2 (float): masa de la partícula 2
+7.  r2 (np.ndarray): posición inicial de la partícula 2
+8.  v2 (np.ndarray): velocidad inicial de la partícula 2
+9.  t_end (float): tiempo de integración (default: 30)
+10. num_steps (int): número de pasos en la integración (default: 300)
 
 Metodos:
-    1.  __init__(): Constructos de la clase
-    2.  motion(): Realiza la simulación de la interacción entre las partículas y el campo magnético.
+
+1.  __init__(): Constructos de la clase
+2.  motion(): Realiza la simulación de la interacción entre las partículas y el campo magnético.
     A su vez, realiza la integración numérica que actualiza los estados de las partículas.
-    3.  plot_motion(): Genera los gráficos 3D de la trayectoria, o los gráficos 2D de las coordenadas, de acuerdo a la opcion suministrada.
+3.  plot_motion(): Genera los gráficos 3D de la trayectoria, o los gráficos 2D de las coordenadas, de acuerdo a la opcion suministrada.
 
 # Contribiciones
 Si encuentras algún bug en la implementación del código no dudes en notificarnos.
 
 # Referencias
 
-[1] Jackson, John David, (1999). Classical electrodynamics. New York :Wiley
-[2] Sepulveda, Alonso, (2009). Electromagnetismo. Universidad de Antioquia.
+- Jackson, John David, (1999). Classical electrodynamics. New York :Wiley
+- Sepulveda, Alonso, (2009). Electromagnetismo. Universidad de Antioquia.
