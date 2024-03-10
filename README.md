@@ -2,8 +2,8 @@
 
 Desarrollado por:
 
-**Mario José Felix**
-**José Luis Torres**
+**Mario José Felix** \\
+**José Luis Torres** \\
 **Sebastián Gaviria**
 
 En este proyecto buscamos simular el comportamiento de un sistema físico configurado por dos partículas puntuales cargadas, interaccionando con una intensidad de campo magnético y con el campo eléctrico generado por la otra partícula cargada. Como primera aproximación consideramos que los movimientos de las partículas son no relativistas, es decir, en el régimen donde la ley de Coulomb es aplicable y por lo tanto tenemos la siguiente expresión:
