@@ -1,5 +1,11 @@
 # Clase fuerza de Lorentz
 
+Desarrollado por:
+
+**Mario José Felix**
+**José Luis Torres**
+**Sebastián Gaviria**
+
 En este proyecto buscamos simular el comportamiento de un sistema físico configurado por dos partículas puntuales cargadas, interaccionando con una intensidad de campo magnético y con el campo eléctrico generado por la otra partícula cargada. Como primera aproximación consideramos que los movimientos de las partículas son no relativistas, es decir, en el régimen donde la ley de Coulomb es aplicable y por lo tanto tenemos la siguiente expresión:
 
 $$ \vec{F}_L = F_m+F_e \rightarrow \vec{F} = q\vec{v}\times \vec{B} + k\frac{q_1 q_2}{r^3}\vec{r}$$
@@ -25,12 +31,12 @@ La fuerza de Lorentz es importante para estudiar los comportamientos generados p
 
 # Contenido:
 
-* "Seguimiento_1.py": contiene la definición de la clase partícula, que representa una partícula con propiedades como la masa, carga eléctrica, posición, velocidad y aceleración . Además de las interacciones entre ellas como se explicará en la siguiente sección.
-* 'execution.py": es el archivo que instancia la clase, dando los parámetros mencionados anteriormente
+* **clase.py**: contiene la definición de la clase Particle, que representa una partícula con propiedades como la masa, carga eléctrica, posición, velocidad y aceleración . Además de las interacciones entre ellas como se explicará en la siguiente sección.
+* **execution.py**: es el archivo que instancia la clase, dando los parámetros mencionados anteriormente.
 
 # Uso
 
-Para hacer uso del simulador, se debe importar la clase Particula en el execution desde el archivo "Seguimiento_1.py" y se deben crear las instanciar mediante las variables físicas que deseas controlar, tales como la masa, la carga, la posición inicial, la velocidad inicial y la aceleración. Todo eso para calcular el movimiento de las partículas y visualizar los resultados mediantes gráficas.
+Para hacer uso del simulador, se debe importar la clase Particle en el ejecutable desde el archivo "clase.py" y se deben crear las instancias mediante las variables físicas que se desee controlar, tales como la masa, carga, posición inicial, velocidad inicial y aceleración. Todo eso para calcular el movimiento de las partículas y visualizar los resultados mediantes gráficas.
 
 # Requisitos
 
@@ -38,43 +44,32 @@ Para hacer uso del simulador, se debe importar la clase Particula en el executio
 * Numpy
 * Matplotlib
 
-# Descripción de las clases:
+# Descripción de la clase:
 
-## Clase Particula:
+## Clase Particle:
 
-Representa la creación del objeto con propiedades como carga y masa
+Representa la creación del objeto con propiedades como carga, masa y sus variables dinámicas.
 Atributos:
-    1.  carga (float): carga electrica de la partícula
-    2.  masa (float): masa de la partícula
+    1.  q1 (float): carga electrica de la partícula 1
+    2.  m1 (float): masa de la partícula 1
+    3.  r1 (np.ndarray): posición inicial de la partícula 1
+    4.  v1 (np.ndarray): velocidad inicial de la partícula 1
+    5.  q2 (float): carga electrica de la partícula 2
+    6.  m2 (float): masa de la partícula 2
+    7.  r2 (np.ndarray): posición inicial de la partícula 2
+    8.  v2 (np.ndarray): velocidad inicial de la partícula 2
+    9.  t_end (float): tiempo de integración (default: 30)
+    10. num_steps (int): número de pasos en la integración (default: 300)
 
 Metodos:
-    1. __init__: constructos de la clase
+    1.  __init__(): Constructos de la clase
+    2.  motion(): Realiza la simulación de la interacción entre las partículas y el campo magnético.
+    A su vez, realiza la integración numérica que actualiza los estados de las partículas.
+    3.  plot_motion(): Genera los gráficos 3D de la trayectoria, o los gráficos 2D de las coordenadas, de acuerdo a la opcion suministrada.
 
-## Clase Dinamica:
-Calcula la evolución de la dinámica en función del tiempo, para las variables como posición, velocidad y aceleración.
-Atributos:
-    1.  posicion: posicion de la partícula
-    2.  velocidad: velocidad inicial de la particula
-    3.  aceleracion: aceleración inicial de la partícula
-Métodos:
-    1. __init__(): constructor de la clase, inicializa los atributos de la dinámica de la partícula. 
-    2. TotalInteractio(): calcula la aceleración total de la partícula debido a la interacción mediante la fuerza de Lorentz.
-    3. PasoTiempo(): realiza la integración numérica (evolución temporal de los atributos)
-
-## Clase Plots:
-
-Genera los gráficos de la trayectoria o de las coordenadas de las partículas en función del tiempo:
-Atributos:
-    -   sol1: solución de la dinámica de la partícula 1.
-    -   sol2: solución de la dinámica de la partícula 2.
-
-Metodos:
-    -   __init__(): constructor para inicializar los atributos
-    -   plot(): genera los gráficos de la trayectoria o de las coordenadas de acuerdo a la opcion suministrada.
 # Contribiciones
 Si encuentras algún bug en la implementación del código no dudes en notificarnos.
 
-Desarrollado por Jose Luis Torres, Sebastián Gaviria, Mario José Félix.
 # Referencias
 
 [1] Jackson, John David, (1999). Classical electrodynamics. New York :Wiley
