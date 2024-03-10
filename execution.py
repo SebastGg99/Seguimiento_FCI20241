@@ -1,7 +1,7 @@
-from fuerza_lorentz import Lorentz
 from clase import Particle
 import numpy as np
 import matplotlib.pyplot as plt
+
 if __name__=="__main__":
     v1 = np.array([1, -1, 0])
     q1 = 1
